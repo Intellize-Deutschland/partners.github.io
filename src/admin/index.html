@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Partner Admin</title>
+  <style>
+    :root {
+      --bg: #f8f9fa; --surface: #fff; --border: #e2e8f0; --text: #1a202c;
+      --muted: #718096; --accent: #2563eb; --accent-hover: #1d4ed8;
+      --danger: #dc2626; --danger-hover: #b91c1c; --success: #16a34a;
+      --radius: 8px; --shadow: 0 1px 3px rgba(0,0,0,.08);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    button { cursor: pointer; font-family: inherit; font-size: 14px; border: none; border-radius: var(--radius); padding: 8px 16px; transition: background .15s; }
+    input, textarea { font-family: inherit; font-size: 14px; border: 1px solid var(--border); border-radius: var(--radius); padding: 8px 12px; width: 100%; outline: none; transition: border-color .15s; }
+    input:focus, textarea:focus { border-color: var(--accent); }
+    textarea { resize: vertical; min-height: 60px; }
+
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn-danger:hover { background: var(--danger-hover); }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+    .btn-outline:hover { background: var(--bg); }
+    .btn-sm { padding: 4px 10px; font-size: 13px; }
+    .btn-icon { width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; background: transparent; }
+    .btn-icon:hover { background: var(--bg); }
+
+    /* Login */
+    .login-wrap { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    .login-card { background: var(--surface); border-radius: 12px; padding: 40px; width: 100%; max-width: 380px; box-shadow: var(--shadow); text-align: center; }
+    .login-card h1 { font-size: 22px; margin-bottom: 4px; }
+    .login-card p { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+    .login-card .field { margin-bottom: 16px; text-align: left; }
+    .login-card label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 4px; color: var(--muted); }
+    .login-card .error { color: var(--danger); font-size: 13px; margin-top: 8px; display: none; }
+
+    /* App Layout */
+    #app { display: none; }
+    header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    header h1 { font-size: 18px; }
+    .header-actions { display: flex; gap: 8px; align-items: center; }
+    .save-indicator { font-size: 13px; color: var(--muted); }
+    .save-indicator.unsaved { color: #d97706; font-weight: 500; }
+
+    nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; gap: 0; }
+    nav button { background: none; border: none; border-bottom: 2px solid transparent; border-radius: 0; padding: 12px 16px; font-size: 14px; color: var(--muted); font-weight: 500; }
+    nav button:hover { color: var(--text); }
+    nav button.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    main { max-width: 900px; margin: 24px auto; padding: 0 24px; }
+    .section { display: none; }
+    .section.active { display: block; }
+
+    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .section-header h2 { font-size: 18px; }
+
+    /* Cards */
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; box-shadow: var(--shadow); }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .card-header h3 { font-size: 15px; font-weight: 600; }
+    .card-meta { font-size: 13px; color: var(--muted); }
+    .card-meta a { color: var(--accent); text-decoration: none; }
+    .card-actions { display: flex; gap: 4px; }
+
+    /* Forms */
+    .form-grid { display: grid; gap: 12px; }
+    .form-row { display: grid; gap: 12px; }
+    .form-row.two-col { grid-template-columns: 1fr 1fr; }
+    .form-group label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 4px; color: var(--muted); }
+    .form-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+
+    /* Modal */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 100; align-items: center; justify-content: center; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: var(--surface); border-radius: 12px; padding: 24px; width: 100%; max-width: 480px; box-shadow: 0 20px 60px rgba(0,0,0,.2); }
+    .modal h2 { font-size: 18px; margin-bottom: 16px; }
+
+    /* Website config */
+    .back-link { display: inline-flex; align-items: center; gap: 4px; color: var(--accent); font-size: 14px; cursor: pointer; margin-bottom: 16px; background: none; border: none; font-weight: 500; }
+    .back-link:hover { text-decoration: underline; }
+    .api-url { font-size: 13px; color: var(--muted); background: var(--bg); padding: 8px 12px; border-radius: var(--radius); margin-bottom: 16px; font-family: monospace; word-break: break-all; }
+
+    .partner-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: start; padding: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 8px; }
+    .partner-row.disabled { opacity: .55; }
+    .partner-fields { display: grid; gap: 8px; }
+    .partner-fields .field-row { display: grid; grid-template-columns: 60px 1fr; gap: 8px; align-items: center; }
+    .partner-fields .field-row label { font-size: 13px; color: var(--muted); font-weight: 500; }
+    .partner-fields .field-row input { font-size: 13px; }
+    .partner-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+
+    /* Toggle */
+    .toggle { position: relative; width: 40px; height: 22px; flex-shrink: 0; }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .toggle span { position: absolute; inset: 0; background: #cbd5e0; border-radius: 11px; cursor: pointer; transition: .2s; }
+    .toggle span::before { content: ''; position: absolute; width: 16px; height: 16px; left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: .2s; }
+    .toggle input:checked + span { background: var(--success); }
+    .toggle input:checked + span::before { transform: translateX(18px); }
+
+    /* Empty state */
+    .empty { text-align: center; padding: 48px 24px; color: var(--muted); }
+    .empty p { margin-bottom: 16px; }
+
+    /* Toast */
+    .toast { position: fixed; bottom: 24px; right: 24px; background: #1a202c; color: #fff; padding: 12px 20px; border-radius: var(--radius); font-size: 14px; z-index: 200; transform: translateY(80px); opacity: 0; transition: all .3s; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.error { background: var(--danger); }
+
+    /* Settings */
+    .settings-section { margin-bottom: 24px; }
+    .settings-section h3 { font-size: 15px; margin-bottom: 8px; }
+    .settings-section p { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+    .token-display { display: flex; gap: 8px; align-items: center; }
+    .token-display input { font-family: monospace; font-size: 13px; }
+  </style>
+</head>
+<body>
+
+<!-- Login Screen -->
+<div id="login-screen" class="login-wrap">
+  <div class="login-card">
+    <h1>Partner Admin</h1>
+    <p>Enter your password to continue</p>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="login-password" placeholder="Password" autofocus>
+    </div>
+    <div id="login-error" class="error">Incorrect password</div>
+    <button class="btn-primary" style="width:100%;margin-top:8px" onclick="handleLogin()">Sign in</button>
+    <div style="margin-top:24px;border-top:1px solid var(--border);padding-top:16px" id="token-section-login">
+      <div class="field">
+        <label>GitHub Token</label>
+        <input type="password" id="login-token" placeholder="ghp_...">
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-top:4px">Required for loading &amp; saving data. Stored locally in your browser.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Setup Screen (first time) -->
+<div id="setup-screen" class="login-wrap" style="display:none">
+  <div class="login-card">
+    <h1>Initial Setup</h1>
+    <p>Set up your admin password and GitHub token</p>
+    <div class="field">
+      <label>Admin Password</label>
+      <input type="password" id="setup-password" placeholder="Choose a password">
+    </div>
+    <div class="field">
+      <label>Confirm Password</label>
+      <input type="password" id="setup-password-confirm" placeholder="Confirm password">
+    </div>
+    <div class="field">
+      <label>GitHub Personal Access Token</label>
+      <input type="password" id="setup-token" placeholder="ghp_...">
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:16px">Token needs <strong>repo</strong> scope. Create one at GitHub &rarr; Settings &rarr; Developer settings &rarr; Tokens.</p>
+    <div id="setup-error" class="error"></div>
+    <button class="btn-primary" style="width:100%;margin-top:8px" onclick="handleSetup()">Complete Setup</button>
+  </div>
+</div>
+
+<!-- Main App -->
+<div id="app">
+  <header>
+    <h1>Partner Admin</h1>
+    <div class="header-actions">
+      <span id="save-indicator" class="save-indicator"></span>
+      <button class="btn-primary" id="save-btn" onclick="saveData()" style="display:none">Save &amp; Deploy</button>
+      <button class="btn-outline btn-sm" onclick="handleLogout()">Logout</button>
+    </div>
+  </header>
+  <nav>
+    <button class="active" onclick="switchTab('partners', this)">Partners</button>
+    <button onclick="switchTab('websites', this)">Websites</button>
+    <button onclick="switchTab('settings', this)">Settings</button>
+  </nav>
+  <main>
+    <!-- Partners Tab -->
+    <div id="tab-partners" class="section active">
+      <div class="section-header">
+        <h2>Partners</h2>
+        <button class="btn-primary" onclick="openPartnerModal()">+ Add Partner</button>
+      </div>
+      <div id="partners-list"></div>
+    </div>
+
+    <!-- Websites Tab -->
+    <div id="tab-websites" class="section">
+      <div id="websites-list-view">
+        <div class="section-header">
+          <h2>Websites</h2>
+          <button class="btn-primary" onclick="openWebsiteModal()">+ Add Website</button>
+        </div>
+        <div id="websites-list"></div>
+      </div>
+      <div id="website-config-view" style="display:none"></div>
+    </div>
+
+    <!-- Settings Tab -->
+    <div id="tab-settings" class="section">
+      <div class="settings-section">
+        <h3>GitHub Token</h3>
+        <p>Personal access token for reading and writing partner data.</p>
+        <div class="token-display">
+          <input type="password" id="settings-token" placeholder="ghp_...">
+          <button class="btn-outline btn-sm" onclick="updateToken()">Update</button>
+        </div>
+      </div>
+      <div class="settings-section">
+        <h3>Change Password</h3>
+        <p>Update the admin panel password.</p>
+        <div class="form-grid" style="max-width:300px">
+          <div class="form-group">
+            <label>New Password</label>
+            <input type="password" id="settings-new-pw">
+          </div>
+          <div class="form-group">
+            <label>Confirm Password</label>
+            <input type="password" id="settings-confirm-pw">
+          </div>
+          <button class="btn-primary" style="justify-self:start" onclick="changePassword()">Change Password</button>
+        </div>
+      </div>
+      <div class="settings-section">
+        <h3>API Base URL</h3>
+        <p id="api-base-url" style="font-family:monospace;font-size:13px;background:var(--bg);padding:8px 12px;border-radius:var(--radius);word-break:break-all"></p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Partner Modal -->
+<div id="partner-modal" class="modal-overlay">
+  <div class="modal">
+    <h2 id="partner-modal-title">Add Partner</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Name (identifier)</label>
+        <input type="text" id="pm-name" placeholder="e.g. google-ads">
+      </div>
+      <div class="form-group">
+        <label>Partner URL</label>
+        <input type="url" id="pm-url" placeholder="https://...">
+      </div>
+      <div class="form-group">
+        <label>Default Title</label>
+        <input type="text" id="pm-title" placeholder="Partner display title">
+      </div>
+      <div class="form-group">
+        <label>Default Text</label>
+        <textarea id="pm-text" placeholder="Partner description text"></textarea>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn-outline" onclick="closeModal('partner-modal')">Cancel</button>
+      <button class="btn-primary" id="pm-submit" onclick="submitPartner()">Add</button>
+    </div>
+  </div>
+</div>
+
+<!-- Website Modal -->
+<div id="website-modal" class="modal-overlay">
+  <div class="modal">
+    <h2>Add Website</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Website Name</label>
+        <input type="text" id="wm-name" placeholder="e.g. greiner">
+        <p style="font-size:12px;color:var(--muted);margin-top:4px">This becomes the API endpoint: /api/{name}.json</p>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn-outline" onclick="closeModal('website-modal')">Cancel</button>
+      <button class="btn-primary" onclick="submitWebsite()">Add</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast"></div>
+
+<script>
+const REPO_OWNER = 'Intellize-Deutschland';
+const REPO_NAME = 'partners.github.io';
+const DATA_PATH = 'data/partners.json';
+const API_BASE = 'https://api.github.com';
+
+let data = null;
+let sha = null;
+let dirty = false;
+let editingPartnerId = null;
+
+function getToken() { return localStorage.getItem('gh_token') || ''; }
+function setToken(t) { localStorage.setItem('gh_token', t); }
+
+async function sha256(text) {
+  const enc = new TextEncoder().encode(text);
+  const buf = await crypto.subtle.digest('SHA-256', enc);
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function toast(msg, isError) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (isError ? ' error' : '');
+  setTimeout(() => el.className = 'toast', 3000);
+}
+
+function markDirty() {
+  dirty = true;
+  document.getElementById('save-btn').style.display = '';
+  document.getElementById('save-indicator').textContent = 'Unsaved changes';
+  document.getElementById('save-indicator').className = 'save-indicator unsaved';
+}
+
+function markClean() {
+  dirty = false;
+  document.getElementById('save-btn').style.display = 'none';
+  document.getElementById('save-indicator').textContent = '';
+  document.getElementById('save-indicator').className = 'save-indicator';
+}
+
+// GitHub API
+async function ghFetch(path, opts = {}) {
+  const token = getToken();
+  const headers = { 'Accept': 'application/vnd.github.v3+json' };
+  if (token) headers['Authorization'] = `token ${token}`;
+  if (opts.body) headers['Content-Type'] = 'application/json';
+  const res = await fetch(`${API_BASE}${path}`, { ...opts, headers });
+  if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
+  return res.json();
+}
+
+async function fetchData() {
+  const result = await ghFetch(`/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_PATH}`);
+  sha = result.sha;
+  const content = atob(result.content.replace(/\n/g, ''));
+  data = JSON.parse(content);
+  if (!data.partners) data.partners = {};
+  if (!data.websites) data.websites = {};
+}
+
+async function saveData() {
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2) + '\n')));
+  const result = await ghFetch(`/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_PATH}`, {
+    method: 'PUT',
+    body: JSON.stringify({ message: 'Update partner data', content, sha })
+  });
+  sha = result.content.sha;
+  markClean();
+  toast('Saved! Deployment will start shortly.');
+}
+
+// Auth
+async function handleLogin() {
+  const pw = document.getElementById('login-password').value;
+  const tokenInput = document.getElementById('login-token').value;
+  if (tokenInput) setToken(tokenInput);
+
+  if (!getToken()) {
+    document.getElementById('login-error').textContent = 'GitHub token is required';
+    document.getElementById('login-error').style.display = 'block';
+    return;
+  }
+
+  try {
+    await fetchData();
+  } catch (e) {
+    document.getElementById('login-error').textContent = 'Failed to fetch data. Check your token.';
+    document.getElementById('login-error').style.display = 'block';
+    return;
+  }
+
+  if (!data.passwordHash) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('setup-screen').style.display = '';
+    return;
+  }
+
+  const hash = await sha256(pw);
+  if (hash !== data.passwordHash) {
+    document.getElementById('login-error').textContent = 'Incorrect password';
+    document.getElementById('login-error').style.display = 'block';
+    return;
+  }
+
+  showApp();
+}
+
+async function handleSetup() {
+  const pw = document.getElementById('setup-password').value;
+  const confirm = document.getElementById('setup-password-confirm').value;
+  const token = document.getElementById('setup-token').value;
+
+  if (!pw || pw.length < 4) {
+    document.getElementById('setup-error').textContent = 'Password must be at least 4 characters';
+    document.getElementById('setup-error').style.display = 'block';
+    return;
+  }
+  if (pw !== confirm) {
+    document.getElementById('setup-error').textContent = 'Passwords do not match';
+    document.getElementById('setup-error').style.display = 'block';
+    return;
+  }
+  if (!token && !getToken()) {
+    document.getElementById('setup-error').textContent = 'GitHub token is required';
+    document.getElementById('setup-error').style.display = 'block';
+    return;
+  }
+
+  if (token) setToken(token);
+  data.passwordHash = await sha256(pw);
+  try {
+    await saveData();
+    showApp();
+  } catch (e) {
+    document.getElementById('setup-error').textContent = 'Failed to save. Check your token permissions.';
+    document.getElementById('setup-error').style.display = 'block';
+  }
+}
+
+function handleLogout() {
+  if (dirty && !confirm('You have unsaved changes. Logout anyway?')) return;
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = '';
+  document.getElementById('login-password').value = '';
+  data = null;
+  sha = null;
+  dirty = false;
+}
+
+function showApp() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('app').style.display = '';
+  document.getElementById('settings-token').value = getToken();
+  const pagesUrl = `https://${REPO_OWNER.toLowerCase()}.github.io/${REPO_NAME}`;
+  document.getElementById('api-base-url').textContent = `${pagesUrl}/api/{website}.json`;
+  markClean();
+  renderPartners();
+  renderWebsites();
+}
+
+// Tab switching
+function switchTab(name, btn) {
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+// Modal
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// Slugify
+function slugify(text) {
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+// ---- Partners ----
+function renderPartners() {
+  const list = document.getElementById('partners-list');
+  const ids = Object.keys(data.partners);
+  if (!ids.length) {
+    list.innerHTML = '<div class="empty"><p>No partners yet</p><button class="btn-primary" onclick="openPartnerModal()">Add your first partner</button></div>';
+    return;
+  }
+  list.innerHTML = ids.map(id => {
+    const p = data.partners[id];
+    return `<div class="card">
+      <div class="card-header">
+        <h3>${esc(p.name || id)}</h3>
+        <div class="card-actions">
+          <button class="btn-icon" title="Edit" onclick="openPartnerModal('${esc(id)}')">&#9998;</button>
+          <button class="btn-icon" title="Delete" onclick="deletePartner('${esc(id)}')">&#128465;</button>
+        </div>
+      </div>
+      <div class="card-meta"><a href="${esc(p.url)}" target="_blank">${esc(p.url)}</a></div>
+      <div class="card-meta" style="margin-top:4px"><strong>Title:</strong> ${esc(p.title)}</div>
+      <div class="card-meta" style="margin-top:2px"><strong>Text:</strong> ${esc(p.text)}</div>
+    </div>`;
+  }).join('');
+}
+
+function openPartnerModal(editId) {
+  editingPartnerId = editId || null;
+  const m = document.getElementById('partner-modal-title');
+  const nameInput = document.getElementById('pm-name');
+  if (editId) {
+    m.textContent = 'Edit Partner';
+    const p = data.partners[editId];
+    nameInput.value = p.name || editId;
+    nameInput.disabled = true;
+    document.getElementById('pm-url').value = p.url;
+    document.getElementById('pm-title').value = p.title;
+    document.getElementById('pm-text').value = p.text;
+    document.getElementById('pm-submit').textContent = 'Save';
+  } else {
+    m.textContent = 'Add Partner';
+    nameInput.value = '';
+    nameInput.disabled = false;
+    document.getElementById('pm-url').value = '';
+    document.getElementById('pm-title').value = '';
+    document.getElementById('pm-text').value = '';
+    document.getElementById('pm-submit').textContent = 'Add';
+  }
+  openModal('partner-modal');
+}
+
+function submitPartner() {
+  const name = document.getElementById('pm-name').value.trim();
+  const url = document.getElementById('pm-url').value.trim();
+  const title = document.getElementById('pm-title').value.trim();
+  const text = document.getElementById('pm-text').value.trim();
+
+  if (!name || !url || !title || !text) { toast('All fields are required', true); return; }
+
+  const id = editingPartnerId || slugify(name);
+  if (!editingPartnerId && data.partners[id]) { toast('A partner with this name already exists', true); return; }
+
+  data.partners[id] = { name, url, title, text };
+  markDirty();
+  closeModal('partner-modal');
+  renderPartners();
+}
+
+function deletePartner(id) {
+  if (!confirm(`Delete partner "${data.partners[id].name || id}"?`)) return;
+  delete data.partners[id];
+  for (const ws of Object.values(data.websites)) {
+    if (ws.overrides) delete ws.overrides[id];
+    if (ws.disabled) ws.disabled = ws.disabled.filter(d => d !== id);
+  }
+  markDirty();
+  renderPartners();
+}
+
+// ---- Websites ----
+function renderWebsites() {
+  const list = document.getElementById('websites-list');
+  const names = Object.keys(data.websites);
+  if (!names.length) {
+    list.innerHTML = '<div class="empty"><p>No websites configured</p><button class="btn-primary" onclick="openWebsiteModal()">Add your first website</button></div>';
+    return;
+  }
+  const pagesUrl = `https://${REPO_OWNER.toLowerCase()}.github.io/${REPO_NAME}`;
+  list.innerHTML = names.map(name => {
+    const ws = data.websites[name];
+    const enabledCount = Object.keys(data.partners).filter(id => !(ws.disabled && ws.disabled.includes(id))).length;
+    const totalCount = Object.keys(data.partners).length;
+    return `<div class="card">
+      <div class="card-header">
+        <h3>${esc(name)}</h3>
+        <div class="card-actions">
+          <button class="btn-outline btn-sm" onclick="openWebsiteConfig('${esc(name)}')">Configure</button>
+          <button class="btn-icon" title="Delete" onclick="deleteWebsite('${esc(name)}')">&#128465;</button>
+        </div>
+      </div>
+      <div class="card-meta"><strong>API:</strong> <a href="${pagesUrl}/api/${esc(name)}.json" target="_blank">/api/${esc(name)}.json</a></div>
+      <div class="card-meta" style="margin-top:2px">${enabledCount}/${totalCount} partners enabled</div>
+    </div>`;
+  }).join('');
+}
+
+function openWebsiteModal() {
+  document.getElementById('wm-name').value = '';
+  openModal('website-modal');
+}
+
+function submitWebsite() {
+  const name = slugify(document.getElementById('wm-name').value.trim());
+  if (!name) { toast('Website name is required', true); return; }
+  if (data.websites[name]) { toast('Website already exists', true); return; }
+  data.websites[name] = { overrides: {}, disabled: [] };
+  markDirty();
+  closeModal('website-modal');
+  renderWebsites();
+}
+
+function deleteWebsite(name) {
+  if (!confirm(`Delete website "${name}" and all its overrides?`)) return;
+  delete data.websites[name];
+  markDirty();
+  renderWebsites();
+}
+
+function openWebsiteConfig(name) {
+  document.getElementById('websites-list-view').style.display = 'none';
+  const view = document.getElementById('website-config-view');
+  view.style.display = '';
+  renderWebsiteConfig(name);
+}
+
+function closeWebsiteConfig() {
+  document.getElementById('website-config-view').style.display = 'none';
+  document.getElementById('websites-list-view').style.display = '';
+  renderWebsites();
+}
+
+function renderWebsiteConfig(name) {
+  const ws = data.websites[name];
+  if (!ws) return;
+  const pagesUrl = `https://${REPO_OWNER.toLowerCase()}.github.io/${REPO_NAME}`;
+  const partnerIds = Object.keys(data.partners);
+  const view = document.getElementById('website-config-view');
+
+  let html = `
+    <button class="back-link" onclick="closeWebsiteConfig()">&larr; Back to Websites</button>
+    <div class="section-header">
+      <h2>${esc(name)}</h2>
+      <button class="btn-danger btn-sm" onclick="deleteWebsite('${esc(name)}');closeWebsiteConfig()">Delete Website</button>
+    </div>
+    <div class="api-url">GET ${pagesUrl}/api/${esc(name)}.json</div>`;
+
+  if (!partnerIds.length) {
+    html += '<div class="empty"><p>No partners to configure. Add partners first.</p></div>';
+  } else {
+    html += partnerIds.map(id => {
+      const p = data.partners[id];
+      const isDisabled = ws.disabled && ws.disabled.includes(id);
+      const ovr = (ws.overrides && ws.overrides[id]) || {};
+      return `<div class="partner-row ${isDisabled ? 'disabled' : ''}">
+        <div class="partner-fields">
+          <div class="partner-name">${esc(p.name || id)}</div>
+          <div class="field-row">
+            <label>Title</label>
+            <input type="text" value="${esc(ovr.title || '')}" placeholder="${esc(p.title)}"
+              onchange="setOverride('${esc(name)}','${esc(id)}','title',this.value)" ${isDisabled ? 'disabled' : ''}>
+          </div>
+          <div class="field-row">
+            <label>Text</label>
+            <input type="text" value="${esc(ovr.text || '')}" placeholder="${esc(p.text)}"
+              onchange="setOverride('${esc(name)}','${esc(id)}','text',this.value)" ${isDisabled ? 'disabled' : ''}>
+          </div>
+        </div>
+        <label class="toggle" title="${isDisabled ? 'Disabled' : 'Enabled'}">
+          <input type="checkbox" ${isDisabled ? '' : 'checked'}
+            onchange="togglePartner('${esc(name)}','${esc(id)}',this.checked)">
+          <span></span>
+        </label>
+      </div>`;
+    }).join('');
+  }
+
+  view.innerHTML = html;
+}
+
+function togglePartner(websiteName, partnerId, enabled) {
+  const ws = data.websites[websiteName];
+  if (!ws.disabled) ws.disabled = [];
+  if (enabled) {
+    ws.disabled = ws.disabled.filter(d => d !== partnerId);
+  } else {
+    if (!ws.disabled.includes(partnerId)) ws.disabled.push(partnerId);
+  }
+  markDirty();
+  renderWebsiteConfig(websiteName);
+}
+
+function setOverride(websiteName, partnerId, field, value) {
+  const ws = data.websites[websiteName];
+  if (!ws.overrides) ws.overrides = {};
+  if (!ws.overrides[partnerId]) ws.overrides[partnerId] = {};
+  if (value.trim()) {
+    ws.overrides[partnerId][field] = value.trim();
+  } else {
+    delete ws.overrides[partnerId][field];
+    if (!Object.keys(ws.overrides[partnerId]).length) delete ws.overrides[partnerId];
+  }
+  markDirty();
+}
+
+// Settings
+function updateToken() {
+  const token = document.getElementById('settings-token').value.trim();
+  if (!token) { toast('Token cannot be empty', true); return; }
+  setToken(token);
+  toast('Token updated');
+}
+
+async function changePassword() {
+  const pw = document.getElementById('settings-new-pw').value;
+  const confirm = document.getElementById('settings-confirm-pw').value;
+  if (!pw || pw.length < 4) { toast('Password must be at least 4 characters', true); return; }
+  if (pw !== confirm) { toast('Passwords do not match', true); return; }
+  data.passwordHash = await sha256(pw);
+  markDirty();
+  document.getElementById('settings-new-pw').value = '';
+  document.getElementById('settings-confirm-pw').value = '';
+  toast('Password updated. Remember to save!');
+}
+
+// Utility
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s || '';
+  return d.innerHTML.replace(/"/g, '&quot;');
+}
+
+// Keyboard
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('login-screen').style.display !== 'none') handleLogin();
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+  }
+});
+
+// Pre-fill token if stored
+window.addEventListener('DOMContentLoaded', () => {
+  const stored = getToken();
+  if (stored) {
+    document.getElementById('login-token').value = stored;
+    document.getElementById('token-section-login').style.display = 'none';
+  }
+});
+</script>
+</body>
+</html>
