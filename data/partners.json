@@ -68,6 +68,12 @@
       "disabled": [
         "greiter"
       ]
+    },
+    "fehr-gartenbau": {
+      "overrides": {},
+      "disabled": [
+        "fehr-gartenbau"
+      ]
     }
   }
 }
