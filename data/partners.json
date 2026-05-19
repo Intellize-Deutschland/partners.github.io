@@ -5,56 +5,61 @@
       "name": "Intellize",
       "url": "https://intellize-deutschland.de",
       "title": "KI / Webentwicklung / Automatisierung",
-      "text": "Intellize ist unser Technologiepartner für Webentwicklung, KI-Integration und Automatisierung. Sie unterstützen uns bei der digitalen Umsetzung unserer Projekte und der Optimierung interner Prozesse."
+      "text": "Intellize ist unser Technologiepartner fÃ¼r Webentwicklung, KI-Integration und Automatisierung. Sie unterstÃ¼tzen uns bei der digitalen Umsetzung unserer Projekte und der Optimierung interner Prozesse."
     },
     "drohnen-niederbayern": {
       "name": "Drohnen Niederbayern",
       "url": "https://drohnen-niederbayern.de",
       "title": "Luftbild & Vermessung",
-      "text": "Drohnenflüge und Luftbildaufnahmen für Baufortschrittsdokumentation, Geländevermessung und 3D-Visualisierung in ganz Bayern."
+      "text": "DrohnenflÃ¼ge und Luftbildaufnahmen fÃ¼r Baufortschrittsdokumentation, GelÃ¤ndevermessung und 3D-Visualisierung in ganz Bayern."
     },
     "studio-rotstich": {
       "name": "Studio Rotstich",
       "url": "https://janaenderle.com",
       "title": "Grafik & Illustration",
-      "text": "Grafikdesign, Illustration und 3D-Visualisierung für Gartenplanung, Marketingmaterialien und individuelle Kundenprojekte."
+      "text": "Grafikdesign, Illustration und 3D-Visualisierung fÃ¼r Gartenplanung, Marketingmaterialien und individuelle Kundenprojekte."
     },
     "fehr-gartenbau": {
       "name": "Fehr Gartenbau",
       "url": "https://fehr-gartenbau.de",
       "title": "Garten- & Landschaftsbau",
-      "text": "Meisterbetrieb für Garten- und Landschaftsbau in Oberstdorf mit über 40 Jahren Erfahrung — von der Beratung über die Planung bis zur Umsetzung individueller Freiraumgestaltung."
+      "text": "Meisterbetrieb fÃ¼r Garten- und Landschaftsbau in Oberstdorf mit Ã¼ber 40 Jahren Erfahrung â von der Beratung Ã¼ber die Planung bis zur Umsetzung individueller Freiraumgestaltung."
     },
     "bauberatung-fehr": {
       "name": "Bauberatung Fehr",
       "url": "https://bauberatung-fehr.de",
       "title": "Bauleitung, Bauplanung & Sanierung",
-      "text": "Bauberatung und Baubegleitung aus Sonthofen — alles aus einer Hand: Bauleitung, Bauplanung, Aufmaß und Sanierung. Geführt von Bautechniker Jonas Fehr."
+      "text": "Bauberatung und Baubegleitung aus Sonthofen â alles aus einer Hand: Bauleitung, Bauplanung, AufmaÃ und Sanierung. GefÃ¼hrt von Bautechniker Jonas Fehr."
     },
     "abels-abbruch": {
       "name": "Abels Abbruch",
       "url": "https://abels-abbruch.de",
-      "title": "Abbruch, Entkernung & Rückbau",
-      "text": "Professioneller Abbruch, Entkernung und Rückbau für private und gewerbliche Kunden — deutschlandweit, mit moderner Technik und langjähriger Erfahrung."
+      "title": "Abbruch, Entkernung & RÃ¼ckbau",
+      "text": "Professioneller Abbruch, Entkernung und RÃ¼ckbau fÃ¼r private und gewerbliche Kunden â deutschlandweit, mit moderner Technik und langjÃ¤hriger Erfahrung."
     },
     "abels-brandschutztueren": {
-      "name": "Abels Brandschutztüren",
+      "name": "Abels BrandschutztÃ¼ren",
       "url": "https://abels-brandschutztueren.com",
       "title": "Baulicher Brandschutz",
-      "text": "Fachbetrieb für baulichen Brandschutz: Einbau, Nachrüstung und Wartung von Brandschutztüren (T30, T60, T90), Abschottungen, Brandschutztoren und Feststellanlagen."
+      "text": "Fachbetrieb fÃ¼r baulichen Brandschutz: Einbau, NachrÃ¼stung und Wartung von BrandschutztÃ¼ren (T30, T60, T90), Abschottungen, Brandschutztoren und Feststellanlagen."
     },
     "schluesseldienst-allgaeu": {
-      "name": "Schlüsseldienst Allgäu",
+      "name": "SchlÃ¼sseldienst AllgÃ¤u",
       "url": "https://schluesseldienst-allgaeu.de",
-      "title": "Schlüsseldienst & Sicherheitstechnik",
-      "text": "Familienbetrieb aus Immenstadt mit 24/7-Notdienst im gesamten Allgäu: Türöffnungen, Schlosswechsel, Schließanlagen sowie Beratung und Einbau moderner Einbruchschutz- und Sicherheitstechnik."
+      "title": "SchlÃ¼sseldienst & Sicherheitstechnik",
+      "text": "Familienbetrieb aus Immenstadt mit 24/7-Notdienst im gesamten AllgÃ¤u: TÃ¼rÃ¶ffnungen, Schlosswechsel, SchlieÃanlagen sowie Beratung und Einbau moderner Einbruchschutz- und Sicherheitstechnik."
     },
     "notdienststation": {
       "name": "Notdienststation",
       "url": "https://notdienststation.de",
-      "title": "KFZ- & Schlüssel-Notdienst",
-      "text": "Rund-um-die-Uhr-Notdienst mit zwei Sparten: KFZ-Abschleppdienst bei Pannen und technischen Defekten sowie Schlüsseldienst bei Aussperrungen und Schlossreparaturen."
+      "title": "KFZ- & SchlÃ¼ssel-Notdienst",
+      "text": "Rund-um-die-Uhr-Notdienst mit zwei Sparten: KFZ-Abschleppdienst bei Pannen und technischen Defekten sowie SchlÃ¼sseldienst bei Aussperrungen und Schlossreparaturen."
     }
   },
-  "websites": {}
+  "websites": {
+    "greiter": {
+      "overrides": {},
+      "disabled": []
+    }
+  }
 }
