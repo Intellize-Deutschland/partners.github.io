@@ -336,7 +336,7 @@ async function ghFetch(path, opts = {}) {
 async function fetchData() {
   const result = await ghFetch(`/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_PATH}`);
   sha = result.sha;
-  const content = atob(result.content.replace(/\n/g, ''));
+  const content = decodeURIComponent(escape(atob(result.content.replace(/\n/g, ''))));
   data = JSON.parse(content);
   if (!data.partners) data.partners = {};
   if (!data.websites) data.websites = {};
