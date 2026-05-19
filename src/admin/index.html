@@ -295,6 +295,17 @@ let editingPartnerId = null;
 function getToken() { return localStorage.getItem('gh_token') || ''; }
 function setToken(t) { localStorage.setItem('gh_token', t); }
 
+const SESSION_DAYS = 30;
+function setSession() {
+  const expires = Date.now() + SESSION_DAYS * 86400000;
+  localStorage.setItem('session_expires', expires);
+}
+function clearSession() { localStorage.removeItem('session_expires'); }
+function hasValidSession() {
+  const exp = localStorage.getItem('session_expires');
+  return exp && Date.now() < Number(exp);
+}
+
 async function sha256(text) {
   const enc = new TextEncoder().encode(text);
   const buf = await crypto.subtle.digest('SHA-256', enc);
@@ -386,6 +397,7 @@ async function handleLogin() {
     return;
   }
 
+  setSession();
   showApp();
 }
 
@@ -414,6 +426,7 @@ async function handleSetup() {
   data.passwordHash = await sha256(pw);
   try {
     await saveData();
+    setSession();
     showApp();
   } catch (e) {
     document.getElementById('setup-error').textContent = 'Failed to save. Check your token permissions.';
@@ -423,6 +436,7 @@ async function handleSetup() {
 
 function handleLogout() {
   if (dirty && !confirm('You have unsaved changes. Logout anyway?')) return;
+  clearSession();
   document.getElementById('app').style.display = 'none';
   document.getElementById('login-screen').style.display = 'flex';
   document.getElementById('login-password').value = '';
@@ -708,9 +722,18 @@ document.addEventListener('keydown', e => {
   }
 });
 
-// Pre-fill token if stored
-window.addEventListener('DOMContentLoaded', () => {
+// Auto-login or pre-fill token
+window.addEventListener('DOMContentLoaded', async () => {
   const stored = getToken();
+  if (stored && hasValidSession()) {
+    try {
+      await fetchData();
+      showApp();
+      return;
+    } catch (e) {
+      clearSession();
+    }
+  }
   if (stored) {
     document.getElementById('login-token').value = stored;
     document.getElementById('token-section-login').style.display = 'none';
