@@ -38,7 +38,6 @@
     .login-card .error { color: var(--danger); font-size: 13px; margin-top: 8px; display: none; }
 
     /* App Layout */
-    #app { display: none; }
     header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
     header h1 { font-size: 18px; }
     .header-actions { display: flex; gap: 8px; align-items: center; }
@@ -163,7 +162,7 @@
 </div>
 
 <!-- Main App -->
-<div id="app">
+<div id="app" style="display:none">
   <header>
     <h1>Partner Admin</h1>
     <div class="header-actions">
@@ -311,7 +310,7 @@ function toast(msg, isError) {
 
 function markDirty() {
   dirty = true;
-  document.getElementById('save-btn').style.display = '';
+  document.getElementById('save-btn').style.display = 'inline-block';
   document.getElementById('save-indicator').textContent = 'Unsaved changes';
   document.getElementById('save-indicator').className = 'save-indicator unsaved';
 }
@@ -376,7 +375,7 @@ async function handleLogin() {
 
   if (!data.passwordHash) {
     document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('setup-screen').style.display = '';
+    document.getElementById('setup-screen').style.display = 'flex';
     return;
   }
 
@@ -425,7 +424,7 @@ async function handleSetup() {
 function handleLogout() {
   if (dirty && !confirm('You have unsaved changes. Logout anyway?')) return;
   document.getElementById('app').style.display = 'none';
-  document.getElementById('login-screen').style.display = '';
+  document.getElementById('login-screen').style.display = 'flex';
   document.getElementById('login-password').value = '';
   data = null;
   sha = null;
@@ -435,7 +434,7 @@ function handleLogout() {
 function showApp() {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('setup-screen').style.display = 'none';
-  document.getElementById('app').style.display = '';
+  document.getElementById('app').style.display = 'block';
   document.getElementById('settings-token').value = getToken();
   const pagesUrl = `https://${REPO_OWNER.toLowerCase()}.github.io/${REPO_NAME}`;
   document.getElementById('api-base-url').textContent = `${pagesUrl}/api/{website}.json`;
@@ -591,13 +590,13 @@ function deleteWebsite(name) {
 function openWebsiteConfig(name) {
   document.getElementById('websites-list-view').style.display = 'none';
   const view = document.getElementById('website-config-view');
-  view.style.display = '';
+  view.style.display = 'block';
   renderWebsiteConfig(name);
 }
 
 function closeWebsiteConfig() {
   document.getElementById('website-config-view').style.display = 'none';
-  document.getElementById('websites-list-view').style.display = '';
+  document.getElementById('websites-list-view').style.display = 'block';
   renderWebsites();
 }
 
