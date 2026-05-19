@@ -1,5 +1,60 @@
 {
   "passwordHash": "5ac0d2f0078acfffcabfb4f684688c99592c0024af907d7cfbe51deddfb114b7",
-  "partners": {},
+  "partners": {
+    "intellize": {
+      "name": "Intellize",
+      "url": "https://intellize-deutschland.de",
+      "title": "KI / Webentwicklung / Automatisierung",
+      "text": "Intellize ist unser Technologiepartner für Webentwicklung, KI-Integration und Automatisierung. Sie unterstützen uns bei der digitalen Umsetzung unserer Projekte und der Optimierung interner Prozesse."
+    },
+    "drohnen-niederbayern": {
+      "name": "Drohnen Niederbayern",
+      "url": "https://drohnen-niederbayern.de",
+      "title": "Luftbild & Vermessung",
+      "text": "Drohnenflüge und Luftbildaufnahmen für Baufortschrittsdokumentation, Geländevermessung und 3D-Visualisierung in ganz Bayern."
+    },
+    "studio-rotstich": {
+      "name": "Studio Rotstich",
+      "url": "https://janaenderle.com",
+      "title": "Grafik & Illustration",
+      "text": "Grafikdesign, Illustration und 3D-Visualisierung für Gartenplanung, Marketingmaterialien und individuelle Kundenprojekte."
+    },
+    "fehr-gartenbau": {
+      "name": "Fehr Gartenbau",
+      "url": "https://fehr-gartenbau.de",
+      "title": "Garten- & Landschaftsbau",
+      "text": "Meisterbetrieb für Garten- und Landschaftsbau in Oberstdorf mit über 40 Jahren Erfahrung — von der Beratung über die Planung bis zur Umsetzung individueller Freiraumgestaltung."
+    },
+    "bauberatung-fehr": {
+      "name": "Bauberatung Fehr",
+      "url": "https://bauberatung-fehr.de",
+      "title": "Bauleitung, Bauplanung & Sanierung",
+      "text": "Bauberatung und Baubegleitung aus Sonthofen — alles aus einer Hand: Bauleitung, Bauplanung, Aufmaß und Sanierung. Geführt von Bautechniker Jonas Fehr."
+    },
+    "abels-abbruch": {
+      "name": "Abels Abbruch",
+      "url": "https://abels-abbruch.de",
+      "title": "Abbruch, Entkernung & Rückbau",
+      "text": "Professioneller Abbruch, Entkernung und Rückbau für private und gewerbliche Kunden — deutschlandweit, mit moderner Technik und langjähriger Erfahrung."
+    },
+    "abels-brandschutztueren": {
+      "name": "Abels Brandschutztüren",
+      "url": "https://abels-brandschutztueren.com",
+      "title": "Baulicher Brandschutz",
+      "text": "Fachbetrieb für baulichen Brandschutz: Einbau, Nachrüstung und Wartung von Brandschutztüren (T30, T60, T90), Abschottungen, Brandschutztoren und Feststellanlagen."
+    },
+    "schluesseldienst-allgaeu": {
+      "name": "Schlüsseldienst Allgäu",
+      "url": "https://schluesseldienst-allgaeu.de",
+      "title": "Schlüsseldienst & Sicherheitstechnik",
+      "text": "Familienbetrieb aus Immenstadt mit 24/7-Notdienst im gesamten Allgäu: Türöffnungen, Schlosswechsel, Schließanlagen sowie Beratung und Einbau moderner Einbruchschutz- und Sicherheitstechnik."
+    },
+    "notdienststation": {
+      "name": "Notdienststation",
+      "url": "https://notdienststation.de",
+      "title": "KFZ- & Schlüssel-Notdienst",
+      "text": "Rund-um-die-Uhr-Notdienst mit zwei Sparten: KFZ-Abschleppdienst bei Pannen und technischen Defekten sowie Schlüsseldienst bei Aussperrungen und Schlossreparaturen."
+    }
+  },
   "websites": {}
 }
