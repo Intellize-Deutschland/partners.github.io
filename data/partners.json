@@ -54,12 +54,20 @@
       "url": "https://notdienststation.de",
       "title": "KFZ- & Schlüssel-Notdienst",
       "text": "Rund-um-die-Uhr-Notdienst mit zwei Sparten: KFZ-Abschleppdienst bei Pannen und technischen Defekten sowie Schlüsseldienst bei Aussperrungen und Schlossreparaturen."
+    },
+    "greiter": {
+      "name": "greiter",
+      "url": "https://greiter-mietservice.de/",
+      "title": "Baumaschinen aus dem Allgäu | Greiter",
+      "text": "Teleskoplader, Bagger und Hebebühnen mieten – mit Lieferung am nächsten Werktag aus Immenstadt direkt zu Ihrer Baustelle."
     }
   },
   "websites": {
     "greiter": {
       "overrides": {},
-      "disabled": []
+      "disabled": [
+        "greiter"
+      ]
     }
   }
 }
