@@ -80,6 +80,12 @@
       "disabled": [
         "abels-brandschutztueren"
       ]
+    },
+    "abels-abbruch": {
+      "overrides": {},
+      "disabled": [
+        "abels-abbruch"
+      ]
     }
   }
 }
