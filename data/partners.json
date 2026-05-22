@@ -74,6 +74,12 @@
       "disabled": [
         "fehr-gartenbau"
       ]
+    },
+    "abels-brandschutz": {
+      "overrides": {},
+      "disabled": [
+        "abels-brandschutztueren"
+      ]
     }
   }
 }
