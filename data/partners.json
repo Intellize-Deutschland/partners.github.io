@@ -86,6 +86,12 @@
       "disabled": [
         "abels-abbruch"
       ]
+    },
+    "bauberatung-fehr": {
+      "overrides": {},
+      "disabled": [
+        "bauberatung-fehr"
+      ]
     }
   }
 }
