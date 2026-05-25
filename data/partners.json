@@ -96,6 +96,12 @@
       "disabled": [
         "bauberatung-fehr"
       ]
+    },
+    "studio-rotstich": {
+      "overrides": {},
+      "disabled": [
+        "studio-rotstich"
+      ]
     }
   }
 }
