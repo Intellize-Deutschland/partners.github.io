@@ -85,6 +85,18 @@
       "overrides": {},
       "disabled": [
         "abels-abbruch"
+      ],
+      "custom": [
+        {
+          "url": "https://a-abels.de/",
+          "title": "Abels Umzüge",
+          "text": "Umzüge ✅mit uns, Ihre Umzugsberatung✅Umzüge mit uns. Wir ziehen Sie zuverlässig und kompetent um. Denn ein Umzug ist Vertrauenssache."
+        },
+        {
+          "url": "https://ihrumzugsangebot.de/",
+          "title": "Abels Umzug - Sicher & Stressfrei in ganz Deutschland",
+          "text": "Holen Sie Ihr 100% kostenloses Umzugsangebot von Abels! Vertrauen sie auf unsere Erfahrung und holen Sie sich jetzt ihr kostenloses Angebot"
+        }
       ]
     },
     "bauberatung-fehr": {
