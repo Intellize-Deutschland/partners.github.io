@@ -659,6 +659,30 @@ function renderWebsiteConfig(name) {
     }).join('');
   }
 
+  html += `<div style="margin-top:2rem; padding-top:1rem; border-top:1px solid var(--border-color);">
+    <h3 style="margin-bottom:1rem;">Custom Partners</h3>
+    <p style="margin-bottom:1rem; font-size:0.9rem; color:var(--text-secondary);">These partners are exclusively listed for this website.</p>
+    <div id="custom-partners-list">`;
+  if (ws.custom && ws.custom.length) {
+    ws.custom.forEach((cp, idx) => {
+      html += `<div class="partner-row" style="align-items:flex-start;">
+        <div class="partner-fields">
+          <div class="field-row"><label>URL</label><input type="text" value="${esc(cp.url||'')}" onchange="updateCustom('${esc(name)}', ${idx}, 'url', this.value)"></div>
+          <div class="field-row"><label>Title</label><input type="text" value="${esc(cp.title||'')}" onchange="updateCustom('${esc(name)}', ${idx}, 'title', this.value)"></div>
+          <div class="field-row"><label>Text</label><textarea onchange="updateCustom('${esc(name)}', ${idx}, 'text', this.value)" style="width:100%;resize:vertical;padding:0.5rem;border:1px solid var(--border-color);border-radius:4px;" rows="2">${esc(cp.text||'')}</textarea></div>
+        </div>
+        <div class="partner-toggle">
+          <button class="btn-danger btn-sm" onclick="removeCustom('${esc(name)}', ${idx})">Remove</button>
+        </div>
+      </div>`;
+    });
+  } else {
+    html += `<div class="empty"><p>No custom partners exclusively for this website.</p></div>`;
+  }
+  html += `</div>
+    <div style="margin-top:1rem;"><button class="btn-outline btn-sm" onclick="addCustom('${esc(name)}')">+ Add Custom Partner</button></div>
+  </div>`;
+
   view.innerHTML = html;
 }
 
@@ -685,6 +709,32 @@ function setOverride(websiteName, partnerId, field, value) {
     if (!Object.keys(ws.overrides[partnerId]).length) delete ws.overrides[partnerId];
   }
   markDirty();
+}
+
+function addCustom(websiteName) {
+  const ws = data.websites[websiteName];
+  if (!ws.custom) ws.custom = [];
+  ws.custom.push({ url: '', title: '', text: '' });
+  markDirty();
+  renderWebsiteConfig(websiteName);
+}
+
+function updateCustom(websiteName, index, field, value) {
+  const ws = data.websites[websiteName];
+  if (ws.custom && ws.custom[index]) {
+    ws.custom[index][field] = value.trim();
+    markDirty();
+  }
+}
+
+function removeCustom(websiteName, index) {
+  if (!confirm('Remove this custom partner?')) return;
+  const ws = data.websites[websiteName];
+  if (ws.custom) {
+    ws.custom.splice(index, 1);
+    markDirty();
+    renderWebsiteConfig(websiteName);
+  }
 }
 
 // Settings

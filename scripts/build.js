@@ -34,6 +34,16 @@ for (const [websiteName, websiteConfig] of Object.entries(data.websites || {})) 
     });
   }
 
+  if (websiteConfig.custom) {
+    for (const customPartner of websiteConfig.custom) {
+      partners.push({
+        url: customPartner.url || '',
+        title: customPartner.title || '',
+        text: customPartner.text || ''
+      });
+    }
+  }
+
   fs.writeFileSync(
     path.join(apiDir, `${websiteName}.json`),
     JSON.stringify(partners, null, 2)
