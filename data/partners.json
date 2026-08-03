@@ -55,12 +55,6 @@
       "title": "KFZ- & Schlüssel-Notdienst",
       "text": "Rund-um-die-Uhr-Notdienst mit zwei Sparten: KFZ-Abschleppdienst bei Pannen und technischen Defekten sowie Schlüsseldienst bei Aussperrungen und Schlossreparaturen."
     },
-    "greiter": {
-      "name": "greiter",
-      "url": "https://greiter-mietservice.de/",
-      "title": "Baumaschinen aus dem Allgäu | Greiter",
-      "text": "Teleskoplader, Bagger und Hebebühnen mieten – mit Lieferung am nächsten Werktag aus Immenstadt direkt zu Ihrer Baustelle."
-    },
     "schluesseldinest-niederbayern": {
       "name": "schluesseldinest-niederbayern",
       "url": "https://xn--schlsseldienst-niederbayern-l3c.de/",
@@ -71,9 +65,7 @@
   "websites": {
     "greiter": {
       "overrides": {},
-      "disabled": [
-        "greiter"
-      ]
+      "disabled": []
     },
     "fehr-gartenbau": {
       "overrides": {},
